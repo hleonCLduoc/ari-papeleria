@@ -18,7 +18,15 @@ public class ResenaService {
     private ResenaRepository resenaRepository;
 
     public Resena guardarResena(Resena resena) {
-        log.info("Guardando nueva reseña para el producto ID: {}", resena.getProductoId());
+        log.info("Validando si el cliente {} ya reseñó el producto {}", resena.getClienteId(), resena.getProductoId());
+
+        // REGLA DE NEGOCIO: Bloquear reseñas duplicadas
+        if (resenaRepository.existsByProductoIdAndClienteId(resena.getProductoId(), resena.getClienteId())) {
+            log.warn("Bloqueo de seguridad: El cliente ya reseñó este producto.");
+            throw new IllegalArgumentException("Error: No puedes dejar más de una reseña para el mismo producto.");
+        }
+
+        log.info("Guardando nueva reseña exitosamente en db_resenas");
         return resenaRepository.save(resena);
     }
 

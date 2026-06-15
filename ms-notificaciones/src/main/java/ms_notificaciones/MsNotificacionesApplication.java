@@ -1,13 +1,13 @@
-package cl.duoc.app;
+package ms_notificaciones;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 @SpringBootApplication
-public class MsNotificacionesBffApplication {
+public class MsNotificacionesApplication {
 
 	public static void main(String[] args) {
-		SpringApplication.run(MsNotificacionesBffApplication.class, args);
+		SpringApplication.run(MsNotificacionesApplication.class, args);
 	}
 
 }

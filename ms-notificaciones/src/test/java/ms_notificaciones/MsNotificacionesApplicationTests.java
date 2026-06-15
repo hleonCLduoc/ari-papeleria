@@ -1,10 +1,10 @@
-package cl.duoc.app;
+package ms_notificaciones;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
 
 @SpringBootTest
-class MsNotificacionesBffApplicationTests {
+class MsNotificacionesApplicationTests {
 
 	@Test
 	void contextLoads() {
