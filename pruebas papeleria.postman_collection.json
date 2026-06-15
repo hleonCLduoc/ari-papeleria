@@ -1,0 +1,164 @@
+{
+  "info": {
+    "_postman_id": "91e957d0-92f6-48f0-b378-2e9d70d6070b",
+    "name": "pruebas papeleria",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "_exporter_id": "53940440",
+    "_collection_link": "https://go.postman.co/collection/53940440-91e957d0-92f6-48f0-b378-2e9d70d6070b?source=collection_link"
+  },
+  "item": [
+    {
+      "name": "listar todos los productos",
+      "request": {
+        "method": "GET",
+        "header": []
+      },
+      "response": []
+    },
+    {
+      "name": "crear usuario",
+      "request": {
+        "method": "POST",
+        "header": [],
+        "body": {
+          "mode": "raw",
+          "raw": "{\r\n    \"rut\": \"12345678-9\",\r\n    \"nombre\": \"Hugo osvaldo\",\r\n    \"apellido\": \"León gonzalez\",\r\n    \"correo\": \"hugo@ejemplo1.com\",\r\n    \"telefono\": \"+56994669158\"\r\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": {
+          "raw": "http://localhost:8082/api/v1/clientes",
+          "protocol": "http",
+          "host": [
+            "localhost"
+          ],
+          "port": "8082",
+          "path": [
+            "api",
+            "v1",
+            "clientes"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "realizar pedido",
+      "request": {
+        "method": "POST",
+        "header": [],
+        "body": {
+          "mode": "raw",
+          "raw": "{\r\n    \"cliente\": \"1\", \r\n    \"producto\": \"1\", \r\n    \"cantidad\": 2,\r\n    \"precioTotal\": 3000.0\r\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": {
+          "raw": "http://localhost:8083/api/v1/pedidos",
+          "protocol": "http",
+          "host": [
+            "localhost"
+          ],
+          "port": "8083",
+          "path": [
+            "api",
+            "v1",
+            "pedidos"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "SIMULAR COMPRA SOBRE STOCK",
+      "request": {
+        "method": "GET",
+        "header": []
+      },
+      "response": []
+    },
+    {
+      "name": "pagar un pedido",
+      "request": {
+        "method": "PUT",
+        "header": [],
+        "url": {
+          "raw": "http://localhost:8083/api/v1/pedidos/2/pagar",
+          "protocol": "http",
+          "host": [
+            "localhost"
+          ],
+          "port": "8083",
+          "path": [
+            "api",
+            "v1",
+            "pedidos",
+            "2",
+            "pagar"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "borrar un pedido",
+      "request": {
+        "method": "GET",
+        "header": []
+      },
+      "response": []
+    },
+    {
+      "name": "crear descuento",
+      "request": {
+        "method": "GET",
+        "header": []
+      },
+      "response": []
+    },
+    {
+      "name": "crear pedido con descuento",
+      "request": {
+        "method": "GET",
+        "header": []
+      },
+      "response": []
+    },
+    {
+      "name": "reseña crear",
+      "request": {
+        "method": "POST",
+        "header": [],
+        "body": {
+          "mode": "raw",
+          "raw": "{\r\n    \"productoId\": \"1\",\r\n    \"clienteId\": \"1\",\r\n    \"calificacion\": 5,\r\n    \"comentario\": \"¡Excelente producto, lo recomiendo muchísimo!\"\r\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": {
+          "raw": "http://localhost:8085/api/v1/resenas",
+          "protocol": "http",
+          "host": [
+            "localhost"
+          ],
+          "port": "8085",
+          "path": [
+            "api",
+            "v1",
+            "resenas"
+          ]
+        }
+      },
+      "response": []
+    }
+  ]
+}
