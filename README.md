@@ -60,6 +60,14 @@ Gracias a la configuración automatizada en los archivos `application.properties
 
 *Asegúrese de que el usuario de MySQL tenga la contraseña configurada correctamente en el `application.properties` de cada proyecto.*
 
+*Crear las bd en su motor de bd, usamos para las pruebas MySQL Workbench
+* CREATE DATABASE db_catalogo;
+* CREATE DATABASE db_clientes;
+* CREATE DATABASE db_pedidos;
+* CREATE DATABASE db_promociones;
+* CREATE DATABASE db_resenas;
+* CREATE DATABASE db_notificaciones;
+
 ### 3. Ejecución de los Microservicios
 Para evitar colisiones de puertos y garantizar que los servicios de orquestación puedan comunicarse con sus proveedores de datos, levante los microservicios desde su IDE en el siguiente orden:
 
