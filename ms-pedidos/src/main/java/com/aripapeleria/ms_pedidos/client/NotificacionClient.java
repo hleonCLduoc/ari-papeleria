@@ -11,5 +11,5 @@ public interface NotificacionClient {
 
     // Dispara el JSON mediante un método POST
     @PostMapping
-    Object enviarNotificacion(@RequestBody NotificacionDTO dto);
+    Object enviarNotificacion(@RequestBody NotificacionDTO dto);k
 }

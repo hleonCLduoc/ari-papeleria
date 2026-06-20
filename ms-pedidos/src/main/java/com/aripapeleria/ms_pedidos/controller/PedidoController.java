@@ -37,14 +37,12 @@ public class PedidoController {
         }
     }
 
-    // 3. MAGIA: Actualizar el estado del pedido y disparar la notificación
     @PutMapping("/{id}/estado")
     public ResponseEntity<Pedido> actualizarEstado(
             @PathVariable Long id,
             @RequestParam String correo,
             @RequestParam String estado) {
         try {
-            // Llama a tu servicio, el cual guarda en BD y luego usa Feign para avisar a ms-notificaciones
             Pedido pedidoActualizado = pedidoService.actualizarEstado(id, correo, estado);
             return ResponseEntity.ok(pedidoActualizado);
 

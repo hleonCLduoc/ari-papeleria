@@ -159,6 +159,22 @@
         }
       },
       "response": []
+    },
+    {
+      "name": "notificaciones",
+      "request": {
+        "method": "GET",
+        "header": []
+      },
+      "response": []
+    },
+    {
+      "name": "consultar las notificaciones",
+      "request": {
+        "method": "GET",
+        "header": []
+      },
+      "response": []
     }
   ]
 }
