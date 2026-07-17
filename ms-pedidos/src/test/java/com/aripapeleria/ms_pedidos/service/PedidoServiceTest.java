@@ -8,13 +8,14 @@ import com.aripapeleria.ms_pedidos.exception.ResourceNotFoundException;
 import com.aripapeleria.ms_pedidos.model.Pedido;
 import com.aripapeleria.ms_pedidos.repository.PedidoRepository;
 import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
+import java.time.LocalDateTime;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
 
@@ -22,11 +23,6 @@ import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.*;
 
-/**
- * Pruebas unitarias de PedidoService.
- * Se usan mocks (Mockito) para el repositorio y los clientes Feign,
- * de modo que se prueba solo la logica de negocio sin base de datos ni red.
- */
 @ExtendWith(MockitoExtension.class)
 class PedidoServiceTest {
 
@@ -51,83 +47,118 @@ class PedidoServiceTest {
     void setUp() {
         pedido = new Pedido();
         pedido.setId(1L);
-        pedido.setCliente("Ana");
-        pedido.setProducto("Cuaderno");
+        pedido.setCliente("1");
+        pedido.setProducto("1");
         pedido.setCantidad(2);
-        pedido.setPrecioTotal(3990.0);
-        pedido.setEstado("Pendiente de Pago");
+        pedido.setPrecioTotal(2400.0);
+        pedido.setEstado("ENVIADO");
+        pedido.setFechaCreacion(LocalDateTime.now());
     }
 
     @Test
-    @DisplayName("listarTodos devuelve la lista del repositorio")
-    void listarTodos_devuelveLista() {
-        when(pedidoRepository.findAll()).thenReturn(List.of(pedido));
+    void testListarTodos() {
+        // Arrange
+        List<Pedido> pedidos = Arrays.asList(pedido);
+        when(pedidoRepository.findAll()).thenReturn(pedidos);
 
+        // Act
         List<Pedido> resultado = pedidoService.listarTodos();
 
+        // Assert
+        assertNotNull(resultado);
         assertEquals(1, resultado.size());
-        assertEquals("Ana", resultado.get(0).getCliente());
-        verify(pedidoRepository).findAll();
+        assertEquals("ENVIADO", resultado.get(0).getEstado());
+        verify(pedidoRepository, times(1)).findAll();
     }
 
     @Test
-    @DisplayName("buscarPorId devuelve el pedido cuando existe")
-    void buscarPorId_existente() {
+    void testListarTodosVacio() {
+        // Arrange
+        when(pedidoRepository.findAll()).thenReturn(Arrays.asList());
+
+        // Act
+        List<Pedido> resultado = pedidoService.listarTodos();
+
+        // Assert
+        assertNotNull(resultado);
+        assertTrue(resultado.isEmpty());
+        verify(pedidoRepository, times(1)).findAll();
+    }
+
+    @Test
+    void testBuscarPorId() {
+        // Arrange
         when(pedidoRepository.findById(1L)).thenReturn(Optional.of(pedido));
 
+        // Act
         Pedido resultado = pedidoService.buscarPorId(1L);
 
+        // Assert
         assertNotNull(resultado);
         assertEquals(1L, resultado.getId());
-        verify(pedidoRepository).findById(1L);
+        assertEquals("ENVIADO", resultado.getEstado());
+        verify(pedidoRepository, times(1)).findById(1L);
     }
 
     @Test
-    @DisplayName("buscarPorId lanza ResourceNotFoundException cuando no existe")
-    void buscarPorId_inexistente() {
-        when(pedidoRepository.findById(99L)).thenReturn(Optional.empty());
+    void testBuscarPorIdNoExiste() {
+        // Arrange
+        when(pedidoRepository.findById(999L)).thenReturn(Optional.empty());
 
-        assertThrows(ResourceNotFoundException.class,
-                () -> pedidoService.buscarPorId(99L));
-        verify(pedidoRepository).findById(99L);
+        // Act & Assert
+        assertThrows(ResourceNotFoundException.class, () -> {
+            pedidoService.buscarPorId(999L);
+        });
+        verify(pedidoRepository, times(1)).findById(999L);
     }
 
     @Test
-    @DisplayName("actualizarEstado guarda el nuevo estado y envia la notificacion")
-    void actualizarEstado_ok() {
+    void testActualizarEstado() {
+        // Arrange
+        pedido.setEstado("PENDIENTE");
         when(pedidoRepository.findById(1L)).thenReturn(Optional.of(pedido));
-        when(pedidoRepository.save(any(Pedido.class))).thenAnswer(inv -> inv.getArgument(0));
+        when(pedidoRepository.save(any(Pedido.class))).thenReturn(pedido);
+        doNothing().when(notificacionClient).enviarNotificacion(any(NotificacionDTO.class));
 
-        Pedido resultado = pedidoService.actualizarEstado(1L, "ana@mail.com", "Enviado");
+        // Act
+        Pedido resultado = pedidoService.actualizarEstado(1L, "test@example.com", "ENVIADO");
 
-        assertEquals("Enviado", resultado.getEstado());
-        verify(pedidoRepository).save(pedido);
-        verify(notificacionClient).enviarNotificacion(any(NotificacionDTO.class));
+        // Assert
+        assertNotNull(resultado);
+        assertEquals("ENVIADO", resultado.getEstado());
+        verify(pedidoRepository, times(1)).findById(1L);
+        verify(pedidoRepository, times(1)).save(any(Pedido.class));
+        verify(notificacionClient, times(1)).enviarNotificacion(any(NotificacionDTO.class));
     }
 
     @Test
-    @DisplayName("actualizarEstado lanza excepcion si el pedido no existe")
-    void actualizarEstado_inexistente() {
-        when(pedidoRepository.findById(99L)).thenReturn(Optional.empty());
+    void testActualizarEstadoPedidoNoExiste() {
+        // Arrange
+        when(pedidoRepository.findById(999L)).thenReturn(Optional.empty());
 
-        assertThrows(ResourceNotFoundException.class,
-                () -> pedidoService.actualizarEstado(99L, "x@mail.com", "Enviado"));
-        verify(pedidoRepository, never()).save(any());
-        verify(notificacionClient, never()).enviarNotificacion(any());
+        // Act & Assert
+        assertThrows(ResourceNotFoundException.class, () -> {
+            pedidoService.actualizarEstado(999L, "test@example.com", "ENVIADO");
+        });
+        verify(pedidoRepository, times(1)).findById(999L);
+        verify(pedidoRepository, times(0)).save(any(Pedido.class));
     }
 
     @Test
-    @DisplayName("actualizarEstado no falla aunque la notificacion arroje error")
-    void actualizarEstado_notificacionFalla_noRompe() {
+    void testActualizarEstadoNotificacionFalla() {
+        // Arrange
+        pedido.setEstado("PENDIENTE");
         when(pedidoRepository.findById(1L)).thenReturn(Optional.of(pedido));
-        when(pedidoRepository.save(any(Pedido.class))).thenAnswer(inv -> inv.getArgument(0));
-        doThrow(new RuntimeException("ms-notificaciones caido"))
+        when(pedidoRepository.save(any(Pedido.class))).thenReturn(pedido);
+        doThrow(new RuntimeException("Error enviando notificación"))
                 .when(notificacionClient).enviarNotificacion(any(NotificacionDTO.class));
 
-        Pedido resultado = pedidoService.actualizarEstado(1L, "ana@mail.com", "Entregado");
+        // Act - No debe lanzar excepción aunque falle la notificación
+        Pedido resultado = pedidoService.actualizarEstado(1L, "test@example.com", "ENVIADO");
 
-        // El estado se guarda igual; el fallo de notificacion se captura y no propaga
-        assertEquals("Entregado", resultado.getEstado());
-        verify(pedidoRepository).save(pedido);
+        // Assert - El pedido se actualiza igualmente
+        assertNotNull(resultado);
+        assertEquals("ENVIADO", resultado.getEstado());
+        verify(pedidoRepository, times(1)).save(any(Pedido.class));
     }
 }

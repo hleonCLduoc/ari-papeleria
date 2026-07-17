@@ -9,6 +9,7 @@
         <outputRelativeToContentRoot value="true" />
         <module name="ms-api-gateway" />
         <module name="ms-pedidos" />
+        <module name="ms-eureka-server" />
       </profile>
       <profile name="Annotation profile for ms-resenas-bff" enabled="true">
         <sourceOutputDir name="target/generated-sources/annotations" />
@@ -33,6 +34,7 @@
       <module name="ms-api-gateway" options="-parameters" />
       <module name="ms-catalogo" options="-parameters" />
       <module name="ms-clientes" options="-parameters" />
+      <module name="ms-eureka-server" options="-parameters" />
       <module name="ms-notificaciones" options="-parameters" />
       <module name="ms-notificaciones-bff" options="-parameters" />
       <module name="ms-pedidos" options="-parameters" />

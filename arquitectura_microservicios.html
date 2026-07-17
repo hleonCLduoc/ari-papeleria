@@ -1,0 +1,328 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Arquitectura de Microservicios - Ari Papelería</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            background: #f5f5f5;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 10px;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.1);
+            overflow: hidden;
+        }
+
+        .header {
+            background: linear-gradient(135deg, #2563eb 0%, #1e40af 100%);
+            color: white;
+            padding: 30px;
+            text-align: center;
+        }
+
+        .header h1 {
+            font-size: 28px;
+            margin-bottom: 10px;
+            font-weight: 700;
+        }
+
+        .header p {
+            font-size: 14px;
+            opacity: 0.95;
+        }
+
+        .main {
+            padding: 40px;
+        }
+
+        .diagram {
+            background: #f9fafb;
+            border: 1px solid #e5e7eb;
+            border-radius: 8px;
+            padding: 30px;
+            margin-bottom: 40px;
+        }
+
+        .diagram img {
+            width: 100%;
+            height: auto;
+            display: block;
+        }
+
+        .info-section {
+            margin-top: 40px;
+        }
+
+        .info-section h2 {
+            font-size: 20px;
+            color: #1f2937;
+            margin-bottom: 20px;
+            font-weight: 700;
+        }
+
+        .info-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+            margin-bottom: 30px;
+        }
+
+        .info-card {
+            background: #f3f4f6;
+            border-left: 4px solid #2563eb;
+            padding: 20px;
+            border-radius: 6px;
+        }
+
+        .info-card h3 {
+            font-size: 16px;
+            color: #1f2937;
+            margin-bottom: 10px;
+            font-weight: 600;
+        }
+
+        .info-card p {
+            font-size: 13px;
+            color: #6b7280;
+            line-height: 1.6;
+        }
+
+        .table-section {
+            margin-top: 30px;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 15px;
+        }
+
+        th {
+            background: #2563eb;
+            color: white;
+            padding: 12px;
+            text-align: left;
+            font-weight: 600;
+            font-size: 13px;
+        }
+
+        td {
+            padding: 12px;
+            border-bottom: 1px solid #e5e7eb;
+            font-size: 13px;
+            color: #4b5563;
+        }
+
+        tr:hover {
+            background: #f9fafb;
+        }
+
+        .port {
+            font-weight: 600;
+            color: #2563eb;
+        }
+
+        .footer {
+            background: #f3f4f6;
+            padding: 20px 30px;
+            text-align: center;
+            border-top: 1px solid #e5e7eb;
+            font-size: 12px;
+            color: #6b7280;
+        }
+
+        @media (max-width: 768px) {
+            .header h1 {
+                font-size: 22px;
+            }
+
+            .info-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .main {
+                padding: 20px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- HEADER -->
+        <div class="header">
+            <h1>Arquitectura de Microservicios con Spring Cloud</h1>
+            <p>Flujo de Tráfico y Descubrimiento - Ari Papelería E-commerce</p>
+        </div>
+
+        <!-- MAIN CONTENT -->
+        <div class="main">
+            <!-- DESCRIPCIÓN DEL FLUJO -->
+            <div class="info-section">
+                <h2>Flujo de una Petición</h2>
+
+                <div class="info-card" style="border-left-color: #3b82f6;">
+                    <h3>1. El Cliente Inicia la Petición</h3>
+                    <p>El cliente (Frontend o Postman) envía una solicitud HTTP al API Gateway en el puerto 8080.</p>
+                </div>
+
+                <div class="info-card" style="border-left-color: #ef4444; margin-top: 15px;">
+                    <h3>2. API Gateway Consulta a Eureka</h3>
+                    <p>El Gateway pregunta al Eureka Server dónde se encuentra el microservicio que necesita.</p>
+                </div>
+
+                <div class="info-card" style="border-left-color: #f59e0b; margin-top: 15px;">
+                    <h3>3. Eureka Responde</h3>
+                    <p>El Eureka Server resuelve el nombre del microservicio y devuelve su dirección (ej: localhost:8083).</p>
+                </div>
+
+                <div class="info-card" style="border-left-color: #10b981; margin-top: 15px;">
+                    <h3>4. Derivación al Microservicio</h3>
+                    <p>El Gateway reenvia la petición al microservicio correcto. Cada uno ejecuta su lógica de negocio.</p>
+                </div>
+
+                <div class="info-card" style="border-left-color: #8b5cf6; margin-top: 15px;">
+                    <h3>5. Persistencia Independiente</h3>
+                    <p>Cada microservicio gestiona su propia base de datos MySQL. Esto permite independencia y escalabilidad.</p>
+                </div>
+
+                <div class="info-card" style="border-left-color: #6366f1; margin-top: 15px;">
+                    <h3>6. Comunicación Interna</h3>
+                    <p>Si un microservicio necesita datos de otro, utiliza WebClient o Feign Client para comunicarse mediante REST.</p>
+                </div>
+            </div>
+
+            <!-- COMPONENTES -->
+            <div class="info-section">
+                <h2>Componentes del Sistema</h2>
+
+                <div class="info-grid">
+                    <div class="info-card" style="border-left-color: #ef4444;">
+                        <h3>🚪 API Gateway</h3>
+                        <p><strong>Puerto:</strong> <span class="port">8080</span></p>
+                        <p style="margin-top: 10px;"><strong>Función:</strong> Punto de entrada único. Enruta peticiones, valida tokens JWT y centraliza la seguridad.</p>
+                    </div>
+
+                    <div class="info-card" style="border-left-color: #f59e0b;">
+                        <h3>📖 Eureka Server</h3>
+                        <p><strong>Puerto:</strong> <span class="port">8761</span></p>
+                        <p style="margin-top: 10px;"><strong>Función:</strong> Directorio de servicios. Registra y descubre la ubicación de todos los microservicios en tiempo real.</p>
+                    </div>
+
+                    <div class="info-card" style="border-left-color: #10b981;">
+                        <h3>⚙️ Microservicios (6)</h3>
+                        <p><strong>Puertos:</strong> 8081-8086 (dinámicos)</p>
+                        <p style="margin-top: 10px;"><strong>Función:</strong> Ejecutan la lógica de negocio independientemente. Cada uno gestiona su dominio específico.</p>
+                    </div>
+
+                    <div class="info-card" style="border-left-color: #8b5cf6;">
+                        <h3>🗄️ Bases de Datos</h3>
+                        <p><strong>Tecnología:</strong> MySQL</p>
+                        <p style="margin-top: 10px;"><strong>Función:</strong> Cada microservicio tiene su propia BD. Garantiza independencia y evita acoplamiento.</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- TABLA DE COMPONENTES -->
+            <div class="table-section">
+                <h2>Detalle de Componentes</h2>
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Componente</th>
+                            <th>Puerto</th>
+                            <th>Descripción</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>API Gateway</td>
+                            <td><span class="port">8080</span></td>
+                            <td>Puerta de entrada única. Enrutamiento dinámico y seguridad centralizada.</td>
+                        </tr>
+                        <tr>
+                            <td>Eureka Server</td>
+                            <td><span class="port">8761</span></td>
+                            <td>Registro y descubrimiento de microservicios. Mantiene lista actualizada en tiempo real.</td>
+                        </tr>
+                        <tr>
+                            <td>ms-catalogo</td>
+                            <td><span class="port">8081</span></td>
+                            <td>Gestión de productos y catálogo del e-commerce.</td>
+                        </tr>
+                        <tr>
+                            <td>ms-clientes</td>
+                            <td><span class="port">8082</span></td>
+                            <td>Gestión de usuarios y perfiles de clientes.</td>
+                        </tr>
+                        <tr>
+                            <td>ms-pedidos</td>
+                            <td><span class="port">8083</span></td>
+                            <td>Gestión de órdenes y procesamiento de compras. (CON SWAGGER Y PRUEBAS)</td>
+                        </tr>
+                        <tr>
+                            <td>ms-promociones</td>
+                            <td><span class="port">8084</span></td>
+                            <td>Gestión de descuentos y campañas promocionales.</td>
+                        </tr>
+                        <tr>
+                            <td>ms-resenas</td>
+                            <td><span class="port">8085</span></td>
+                            <td>Gestión de calificaciones y opiniones de clientes.</td>
+                        </tr>
+                        <tr>
+                            <td>ms-notificaciones</td>
+                            <td><span class="port">8086</span></td>
+                            <td>Envío de correos y notificaciones a usuarios.</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <!-- VENTAJAS -->
+            <div class="info-section">
+                <h2>Ventajas de esta Arquitectura</h2>
+
+                <div class="info-grid">
+                    <div class="info-card">
+                        <h3>✓ Escalabilidad</h3>
+                        <p>Cada microservicio puede escalar independientemente según su carga de trabajo.</p>
+                    </div>
+
+                    <div class="info-card">
+                        <h3>✓ Independencia</h3>
+                        <p>Las bases de datos separadas evitan acoplamiento entre servicios.</p>
+                    </div>
+
+                    <div class="info-card">
+                        <h3>✓ Resiliencia</h3>
+                        <p>Si un servicio falla, los demás continúan funcionando normalmente.</p>
+                    </div>
+
+                    <div class="info-card">
+                        <h3>✓ Mantenibilidad</h3>
+                        <p>Cambios en un servicio no afectan a los otros. Desarrollo independiente por equipos.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- FOOTER -->
+        <div class="footer">
+            <p>✓ Swagger documentado | ✓ Pruebas unitarias implementadas | ✓ Integración con API Gateway funcional</p>
+        </div>
+    </div>
+</body>
+</html>

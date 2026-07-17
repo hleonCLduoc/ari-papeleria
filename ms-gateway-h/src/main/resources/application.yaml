@@ -2,8 +2,13 @@ server:
   port: 8080
 
 jwt:
-  secret: "Esta-no-es-Una-Password"
-  expiration-minutes: 90
+  secret: "NosoyHugo-NosoyLeon-NosoyGonzalez-2026"
+  expiration-minutes: 60
+
+eureka:
+  client:
+    service-url:
+      defaultZone: http://localhost:8761/eureka/
 
 spring:
   application:
@@ -14,48 +19,36 @@ spring:
       routes:
         # ms-catalogo
         - id: ms-catalogo
-          uri: http://localhost:8081
+          uri: lb://ms-catalogo
           predicates:
-            - Path=/api/catalogo/**
-          filters:
-            - StripPrefix=2
+            - Path=/api/v1/catalogo/**
 
         # ms-clientes
         - id: ms-clientes
-          uri: http://localhost:8082
+          uri: lb://ms-clientes
           predicates:
-            - Path=/api/clientes/**
-          filters:
-            - StripPrefix=2
+            - Path=/api/v1/clientes/**
 
         # ms-pedidos
         - id: ms-pedidos
-          uri: http://localhost:8083
+          uri: lb://ms-pedidos
           predicates:
-            - Path=/api/pedidos/**
-          filters:
-            - StripPrefix=2
+            - Path=/api/v1/pedidos/**
 
         # ms-promociones
         - id: ms-promociones
-          uri: http://localhost:8084
+          uri: lb://ms-promociones
           predicates:
-            - Path=/api/promociones/**
-          filters:
-            - StripPrefix=2
+            - Path=/api/v1/promociones/**
 
         # ms-reseñas
         - id: ms-resenas
-          uri: http://localhost:8085
+          uri: lb://ms-resenas
           predicates:
-            - Path=/api/resenas/**
-          filters:
-            - StripPrefix=2
+            - Path=/api/v1/resenas/**
 
         # ms-notificaciones
         - id: ms-notificaciones
-          uri: http://localhost:8086
+          uri: lb://ms-notificaciones
           predicates:
-            - Path=/api/notificaciones/**
-          filters:
-            - StripPrefix=2
+            - Path=/api/v1/notificaciones/**
