@@ -1,0 +1,5 @@
+com\aripapeleria\msapigateway\MsApiGatewayApplication.class
+com\aripapeleria\msapigateway\security\JwtService.class
+com\aripapeleria\msapigateway\security\JwtAuthenticationFilter.class
+com\aripapeleria\msapigateway\security\AuthController.class
+com\aripapeleria\msapigateway\security\AuthController$LoginRequest.class

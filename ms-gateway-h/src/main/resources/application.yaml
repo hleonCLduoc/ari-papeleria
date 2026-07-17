@@ -1,0 +1,61 @@
+server:
+  port: 8080
+
+jwt:
+  secret: "Esta-no-es-Una-Password"
+  expiration-minutes: 90
+
+spring:
+  application:
+    name: ms-api-gateway
+
+  cloud:
+    gateway:
+      routes:
+        # ms-catalogo
+        - id: ms-catalogo
+          uri: http://localhost:8081
+          predicates:
+            - Path=/api/catalogo/**
+          filters:
+            - StripPrefix=2
+
+        # ms-clientes
+        - id: ms-clientes
+          uri: http://localhost:8082
+          predicates:
+            - Path=/api/clientes/**
+          filters:
+            - StripPrefix=2
+
+        # ms-pedidos
+        - id: ms-pedidos
+          uri: http://localhost:8083
+          predicates:
+            - Path=/api/pedidos/**
+          filters:
+            - StripPrefix=2
+
+        # ms-promociones
+        - id: ms-promociones
+          uri: http://localhost:8084
+          predicates:
+            - Path=/api/promociones/**
+          filters:
+            - StripPrefix=2
+
+        # ms-reseñas
+        - id: ms-resenas
+          uri: http://localhost:8085
+          predicates:
+            - Path=/api/resenas/**
+          filters:
+            - StripPrefix=2
+
+        # ms-notificaciones
+        - id: ms-notificaciones
+          uri: http://localhost:8086
+          predicates:
+            - Path=/api/notificaciones/**
+          filters:
+            - StripPrefix=2

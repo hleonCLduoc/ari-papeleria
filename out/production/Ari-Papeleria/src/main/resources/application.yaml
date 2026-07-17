@@ -1,0 +1,61 @@
+server:
+  port: 8080
+  error:
+    include-message: always
+    include-stacktrace: on_param
+
+spring:
+  application:
+    name: ms-api-gateway
+
+  cloud:
+    gateway:
+      server:
+        webflux:
+          routes:
+            # ms-catalogo (8081)
+            - id: ms-catalogo
+              uri: http://localhost:8081
+              predicates:
+                - Path=/api/v1/productos/**
+
+            # ms-cliente (8082)
+            - id: ms-cliente
+              uri: http://localhost:8082
+              predicates:
+                - Path=/api/v1/clientes/**
+
+            # ms-pedidos (8083)
+            - id: ms-pedidos
+              uri: http://localhost:8083
+              predicates:
+                - Path=/api/v1/pedidos/**
+
+            # ms-promociones (8084)
+            - id: ms-promociones
+              uri: http://localhost:8084
+              predicates:
+                - Path=/api/v1/promociones/**
+
+            # ms-resenas (8085)
+            - id: ms-resenas
+              uri: http://localhost:8085
+              predicates:
+                - Path=/api/v1/resenas/**
+
+            # ms-notificaciones (8086)
+            - id: ms-notificaciones
+              uri: http://localhost:8086
+              predicates:
+                - Path=/api/v1/notificaciones/**
+
+# Configuracion del token JWT que valida el gateway
+jwt:
+  secret: "aripapeleria-aripapeleria-aripapeleria-2026"
+  expiration-minutes: 60
+
+# Rutas publicas que NO requieren token (login del gateway)
+gateway:
+  security:
+    public-paths:
+      - /auth/login
