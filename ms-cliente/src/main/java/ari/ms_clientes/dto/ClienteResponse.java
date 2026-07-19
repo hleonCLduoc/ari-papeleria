@@ -1,36 +1,28 @@
 package ari.ms_clientes.dto;
 
 import io.swagger.v3.oas.annotations.media.Schema;
-import lombok.Data;
-import jakarta.validation.constraints.NotBlank;
-
+import lombok.*;
 
 @Data
-@Schema(description="DTO utilizado para crear o actualizar un cliente")
+@Schema(description = "DTO de respuesta con la información del cliente")
+public class ClienteResponse {
 
-public class ClienteRequest {
-
-    @NotBlank(message="El RUT es obligatorio.")
     @Schema(description = "Rut del cliente",
             example = "12345678-9")
     private String rut;
 
-    @NotBlank(message = "El nombre es obligatorio.")
     @Schema(description = "Nombre del cliente",
             example = "Juan")
     private String nombre;
 
-    @NotBlank(message= "El apellido es obligatorio.")
     @Schema(description = "Apellido del cliente",
             example = "Pérez")
     private String apellido;
 
-    @NotBlank(message = "El correo es obligatorio.")
     @Schema(description = "Correo del cliente",
             example = "juan.perez@aripapeleria.cl")
     private String correo;
 
-    @NotBlank(message = "El telefono es obligatorio.")
     @Schema(description = "Telefono del cliente",
             example = "911223344")
     private String telefono;
