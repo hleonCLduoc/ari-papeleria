@@ -7,9 +7,8 @@ Para garantizar un alto nivel de aislamiento, escalabilidad y flexibilidad, el p
 
 #### 👥 Equipo de Desarrollo
 *   **Estudiante 1:** Hugo León (Scrum Master / Backend Developer)
-*   **Estudiante 2:** [Nombre de tu compañero/a] (Backend Developer)
-*   **Estudiante 3:** [Nombre de tu compañero/a] (Backend Developer)
-*   **Enlace a tablero de gestión:** [Pega aquí el enlace a tu Trello/GitHub Project]
+*   **Estudiante 2:** [Ana Farmer] (Backend Developer)
+*   **Estudiante 3:** [Dayanne Millar] (Backend Developer)
 
 ---
 
