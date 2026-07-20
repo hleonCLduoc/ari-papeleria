@@ -7,8 +7,8 @@ Para garantizar un alto nivel de aislamiento, escalabilidad y flexibilidad, el p
 
 #### 👥 Equipo de Desarrollo
 *   **Estudiante 1:** Hugo León (Scrum Master / Backend Developer)
-*   **Estudiante 2:** [Ana Farmer] (Backend Developer)
-*   **Estudiante 3:** [Dayanne Millar] (Backend Developer)
+*   **Estudiante 2:** Ana Farmer (Backend Developer)
+*   **Estudiante 3:** Dayanne Millar (Backend Developer)
 
 ---
 
